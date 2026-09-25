@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TriKer | Езикът на Вселената</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #05080c;
+            --surface-color: #111a26;
+            --primary-blue: #408ec6;
+            --primary-green: #3ab285;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Навигация */
+        header {
+            background-color: rgba(5, 8, 12, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 800; color: #fff; text-decoration: none; letter-spacing: 2px; }
+        .logo span { color: var(--primary-green); }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 2rem; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--primary-blue); }
+
+        /* Геройска секция (Hero) */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem 0;
+            background: radial-gradient(circle at center, #15202e 0%, var(--bg-color) 70%);
+        }
+
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 800px; }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-green));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 10;
+        }
+
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(64, 142, 198, 0.3); }
+
+        /* Секции */
+        section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #fff; }
+
+        /* Стил за картите (адаптиран за уеб) */
+        .cards-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .game-card {
+            width: 240px;
+            height: 335px;
+            border-radius: 12px;
+            border: 4px solid;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            color: #000;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(64, 142, 198, 0.4);
+            z-index: 10;
+        }
+
+        .game-card .gen-badge { position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: bold; color: #555; background: rgba(255,255,255,0.9); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.2); z-index: 20; }
+        .game-card .title { font-size: 14px; font-weight: 900; text-transform: uppercase; margin-bottom: 2px; text-align: center; z-index: 20; line-height: 1.1; }
+        .game-card .subtitle { font-size: 10px; text-align: center; margin-bottom: auto; z-index: 20; font-weight: 700; opacity: 0.9;}
+        .game-card .graphic { width: 100%; height: 150px; display: flex; justify-content: center; align-items: center; z-index: 20; position: relative; margin: 10px 0;}
+        .game-card .rule-box { border-radius: 6px; padding: 8px; width: 100%; font-size: 10px; text-align: center; margin-top: auto; border: 1px solid; z-index: 20; font-weight: 600; line-height: 1.3;}
+        .game-card .rule-box b { font-weight: 900; font-size: 11px; }
+
+        /* Теми за картите */
+        .theme-water { border-color: #0288d1; background-color: #e1f5fe; } .theme-water .title { color: #01579b; } .theme-water .subtitle { color: #0288d1; } .theme-water .rule-box { background-color: #b3e5fc; border-color: #81d4fa; color: #01579b; }
+        .theme-n { border-color: #c62828; background-color: #ffebee; } .theme-n .title { color: #b71c1c; } .theme-n .rule-box { background-color: #ffcdd2; border-color: #ef9a9a; color: #b71c1c; }
+        .theme-gravity { border-color: #33691e; background-color: #f1f8e9; } .theme-gravity .title { color: #1b5e20; } .theme-gravity .subtitle { color: #33691e; } .theme-gravity .rule-box { background-color: #dcedc8; border-color: #c5e1a5; color: #1b5e20; }
+        .theme-energy { border-color: #e64a19; background-color: #fbe9e7; } .theme-energy .title { color: #bf360c; } .theme-energy .subtitle { color: #e64a19; } .theme-energy .rule-box { background-color: #ffccbc; border-color: #ffab91; color: #bf360c; }
+        .theme-proton { border-color: #43a047; background-color: #e8f5e9; } .theme-proton .title { color: #2e7d32; } .theme-proton .subtitle { color: #43a047; } .theme-proton .rule-box { background-color: #c8e6c9; border-color: #a5d6a7; color: #1b5e20; }
+
+        footer { background-color: var(--surface-color); text-align: center; padding: 2rem; margin-top: 4rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body>
+
+    <!-- СКРИТИ SVG ДЕФИНИЦИИ ЗА КАРТИТЕ -->
+    <svg width="0" height="0" style="display:none;">
+        <defs>
+            <radialGradient id="shadow-grad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(0,0,0,0.2)"/>
+                <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+            </radialGradient>
+            <g id="glow"><ellipse cx="0" cy="35" rx="35" ry="8" fill="url(#shadow-grad)"/></g>
+            <g id="face-smile"><circle cx="-5" cy="-4" r="2" fill="white"/><circle cx="5" cy="-4" r="2" fill="white"/><path d="M-5 3 Q0 8 5 3" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"/></g>
+            <g id="face-strain"><line x1="-7" y1="-6" x2="-2" y2="-3" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="-6" x2="2" y2="-3" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="-4" cy="-2" r="1.5" fill="white"/><circle cx="4" cy="-2" r="1.5" fill="white"/><path d="M-4 5 Q0 2 4 5" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/></g>
+            
+            <!-- Графики за картите -->
+            <g id="water"><path d="M 0 -25 Q 20 0 20 15 A 20 20 0 0 1 -20 15 Q -20 0 0 -25 Z" fill="#03a9f4"/><path d="M 12 15 A 12 12 0 0 0 0 27" fill="none" stroke="#81d4fa" stroke-width="2.5" stroke-linecap="round"/><use href="#face-smile" transform="translate(0, 8)"/></g>
+            <g id="n"><circle cx="0" cy="0" r="26" fill="#c62828"/><path d="M-30 0 L-10 0" stroke="white" stroke-width="4" stroke-linecap="round"/><polygon points="-14,-8 -2,0 -14,8" fill="white"/><use href="#face-strain" transform="translate(0,0)"/></g>
+            <g id="gravity"><line x1="0" y1="-40" x2="0" y2="-26" stroke="#1b5e20" stroke-width="3" stroke-linecap="round"/><polygon points="0,-24 -6,-34 6,-34" fill="#1b5e20"/><circle cx="0" cy="0" r="27" fill="#33691e" /><use href="#face-strain" transform="translate(0, 0)"/><text x="-8" y="38" fill="#1b5e20" font-size="10" font-weight="bold">Fg</text></g>
+            <g id="energy"><path d="M0 -40 L8 -13 L30 -13 L12 2 L20 30 L0 12 L-20 30 L-12 2 L-30 -13 L-8 -13 Z" fill="#ffab91" opacity="0.6"/><circle cx="0" cy="0" r="24" fill="#e64a19" /><use href="#face-smile" transform="translate(0, 0)"/></g>
+            <g id="proton"><circle cx="50" cy="50" r="30" fill="#43a047" /><circle cx="38" cy="40" r="8" fill="#c62828" /> <text x="35" y="43" fill="#ffffff" font-weight="bold" font-size="8" font-family="sans-serif">u</text><circle cx="62" cy="40" r="8" fill="#c62828" /> <text x="59" y="43" fill="#ffffff" font-weight="bold" font-size="8" font-family="sans-serif">u</text><circle cx="50" cy="62" r="8" fill="#1565c0" /> <text x="47" y="65" fill="#ffffff" font-weight="bold" font-size="8" font-family="sans-serif">d</text><path d="M 40 75 Q 50 82 60 75" fill="none" stroke="#1b5e20" stroke-width="2" stroke-linecap="round"/></g>
+        </defs>
+    </svg>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Tri<span>Ker</span></a>
+            <div class="nav-links">
+                <a href="#concept">Концепция</a>
+                <a href="#ecosystem">Екосистема</a>
+                <a href="#cards">Галерия</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO СЕКЦИЯ С 3D ЛОГОТО -->
+    <section class="hero">
+        <!-- Интегрирано 3D Лого (Без задния правоъгълник, за да прелива) -->
+        <svg id="triker-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="100%" style="max-width: 700px; margin-bottom: -20px;">
+            <defs>
+                <filter id="logo-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <filter id="cloud-blur" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2" />
+                </filter>
+                <mask id="text-mask">
+                    <rect x="0" y="0" width="800" height="400" fill="white" />
+                    <text x="400" y="240" font-weight="900" font-size="100" text-anchor="middle" fill="black" stroke="black" stroke-width="36" stroke-linejoin="round" letter-spacing="4">TriKer</text>
+                </mask>
+            </defs>
+
+            <g stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.04">
+                <circle cx="400" cy="180" r="160" />
+                <circle cx="320" cy="300" r="160" />
+                <circle cx="480" cy="300" r="160" />
+            </g>
+
+            <g mask="url(#text-mask)">
+                <g id="dna-orbit" transform="translate(400, 210) rotate(60)"></g>
+                <g transform="translate(400, 210) rotate(-60)">
+                    <ellipse cx="0" cy="0" rx="240" ry="70" fill="none" stroke="#00E5FF" stroke-width="3" />
+                    <ellipse cx="0" cy="0" rx="230" ry="60" fill="none" stroke="#00E5FF" stroke-width="1.5" stroke-dasharray="4 12" opacity="0.6" filter="url(#cloud-blur)"/>
+                    <ellipse cx="0" cy="0" rx="250" ry="80" fill="none" stroke="#00E5FF" stroke-width="1" stroke-dasharray="10 20" opacity="0.4" />
+                    <circle cx="-240" cy="0" r="7" fill="#00E5FF" filter="url(#logo-glow)"/>
+                    <circle cx="120" cy="60" r="4" fill="#ffffff" filter="url(#logo-glow)"/>
+                </g>
+                <g transform="translate(400, 210)">
+                    <ellipse cx="0" cy="0" rx="240" ry="70" fill="none" stroke="#FF007A" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round" opacity="0.8"/>
+                    <g transform="translate(-240, 0)">
+                        <polygon points="0,-20 17.3,-10 17.3,10 0,20 -17.3,10 -17.3,-10" fill="rgba(255, 0, 122, 0.15)" stroke="#FF007A" stroke-width="2" filter="url(#logo-glow)"/>
+                        <circle cx="17.3" cy="10" r="4" fill="#FF007A" filter="url(#logo-glow)"/>
+                        <circle cx="51.9" cy="30" r="2" fill="#ffffff" />
+                    </g>
+                    <g transform="translate(240, 0)">
+                        <polygon points="0,-20 -17.3,-10 -17.3,10 0,20 17.3,10 17.3,-10" fill="rgba(255, 0, 122, 0.2)" stroke="#FF007A" stroke-width="2" filter="url(#logo-glow)"/>
+                        <circle cx="-17.3" cy="-10" r="5" fill="#FF007A" filter="url(#logo-glow)"/>
+                    </g>
+                </g>
+            </g>
+
+            <text x="400" y="240" font-family="'Montserrat', sans-serif" font-weight="900" font-size="100" text-anchor="middle" fill="#ffffff" letter-spacing="4" filter="url(#logo-glow)">TriKer</text>
+            <text x="400" y="300" font-family="'Montserrat', sans-serif" font-weight="800" font-size="16" text-anchor="middle" fill="#ffcc00" letter-spacing="8" opacity="0.95">STEM ЕКОСИСТЕМА</text>
+        </svg>
+
+        <p>Иновативна методика, която превръща природните науки, комбинаториката и логическото мислене в динамично преживяване.</p>
+        <a href="#cards" class="cta-btn">Виж картите в действие</a>
+    </section>
+
+    <!-- СЕКЦИЯ ГАЛЕРИЯ (КАРТИ) -->
+    <section id="cards">
+        <h2 class="section-title">Еволюция на правилата</h2>
+        <p style="text-align: center; color: var(--text-muted); max-width: 800px; margin: 0 auto;">От базовите природни трансформации до Стандартния модел на елементарните частици — всяко тесте симулира реалните научни закони в съответната възрастова група.</p>
+        
+        <div class="cards-showcase">
+            <!-- MN Card -->
+            <div class="game-card theme-water">
+                <div class="gen-badge">1</div>
+                <div class="title">ВОДНА КАПКА</div>
+                <div class="subtitle">TriKer-MN (5-6 клас)</div>
+                <div class="graphic">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%" style="overflow: visible;">
+                        <use href="#glow" transform="translate(50,50)" />
+                        <use href="#water" transform="translate(18, 82) scale(0.6) rotate(-15)" opacity="0.15" />
+                        <use href="#water" transform="translate(82, 18) scale(0.6) rotate(15)" opacity="0.15" />
+                        <use href="#water" transform="translate(50, 50)" scale(1.1) />
+                    </svg>
+                </div>
+                <div class="rule-box">Основа на живата природа.<br><b>Реакция:</b> Добави <b>Слънце</b> (Изпарение) или <b>Студ</b> (Лед).</div>
+            </div>
+
+            <!-- SI Card -->
+            <div class="game-card theme-n">
+                <div class="title">НЮТОН</div>
+                <div class="subtitle">TriKer-SI (Мерни единици)</div>
+                <div class="graphic">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%" style="overflow: visible;">
+                        <use href="#glow" transform="translate(50,50)" />
+                        <use href="#n" transform="translate(18, 82) scale(0.6) rotate(-15)" opacity="0.15" />
+                        <use href="#n" transform="translate(82, 18) scale(0.6) rotate(15)" opacity="0.15" />
+                        <use href="#n" transform="translate(50, 50)" scale(1.1) />
+                    </svg>
+                </div>
+                <div class="rule-box">Синтез: <b>kg + m + s</b><br>Събери маса, дължина и време за Сила!</div>
+            </div>
+
+            <!-- EM Card -->
+            <div class="game-card theme-gravity">
+                <div class="title">ГРАВИТАЦИЯ</div>
+                <div class="subtitle">TriKer-EM (7-10 клас)</div>
+                <div class="graphic">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%" style="overflow: visible;">
+                        <use href="#glow" transform="translate(50,50)" />
+                        <use href="#gravity" transform="translate(18, 82) scale(0.6) rotate(-15)" opacity="0.15" />
+                        <use href="#gravity" transform="translate(82, 18) scale(0.6) rotate(15)" opacity="0.15" />
+                        <use href="#gravity" transform="translate(50, 50)" scale(1.1) />
+                    </svg>
+                </div>
+                <div class="rule-box">Привлича всичко с маса.<br><b>ЕКШЪН:</b> Всички останали играчи теглят по 1 карта!</div>
+            </div>
+
+            <!-- QW Card -->
+            <div class="game-card theme-energy">
+                <div class="title">ЕНЕРГИЯ</div>
+                <div class="subtitle">TriKer-QW (Квантов свят)</div>
+                <div class="graphic">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%" style="overflow: visible;">
+                        <use href="#glow" transform="translate(50,50)" />
+                        <use href="#energy" transform="translate(18, 82) scale(0.6) rotate(-15)" opacity="0.15" />
+                        <use href="#energy" transform="translate(82, 18) scale(0.6) rotate(15)" opacity="0.15" />
+                        <use href="#energy" transform="translate(50, 50)" scale(1.1) />
+                    </svg>
+                </div>
+                <div class="rule-box">Основен градивен блок.<br>Участва в <b>E=h&nu;</b> и <b>Eₖ=h&nu;-A</b>.</div>
+            </div>
+
+            <!-- SM Card -->
+            <div class="game-card theme-proton">
+                <div class="title">ПРОТОН</div>
+                <div class="subtitle">TriKer-SM (Студенти)</div>
+                <div class="graphic">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%" style="overflow: visible;">
+                        <use href="#proton" transform="translate(85, 15) scale(0.55) rotate(-15) translate(-50, -50)" opacity="0.15" />
+                        <use href="#proton" transform="translate(15, 85) scale(0.55) rotate(15) translate(-50, -50)" opacity="0.15" />
+                        <use href="#proton" transform="translate(0, 0)" />
+                    </svg>
+                </div>
+                <div class="rule-box">Изключително стабилен!<br>Изграден от 3 кварка (u, u, d). Основа на ядрото.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ ЕКОСИСТЕМА (ГРАФИКА) -->
+    <section id="ecosystem" style="background-color: var(--surface-color); border-top: 1px solid rgba(255, 255, 255, 0.05);">
+        <h2 class="section-title">Еволюционна Структура</h2>
+        
+        <!-- Интегрирана STEM графика -->
+        <div style="max-width: 1000px; margin: 0 auto; background-color: #05080c; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); padding-top: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="100%" height="auto">
+                <defs>
+                    <filter id="graph-glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="6" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="graph-glow-light" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    
+                    <path id="path-chem" d="M 250 350 C 310 350, 300 160, 370 160" fill="none" />
+                    <path id="path-phys" d="M 250 350 L 370 350" fill="none" />
+                    <path id="path-bio"  d="M 250 350 C 310 350, 300 540, 370 540" fill="none" />
+                    <path id="path-chem-2" d="M 570 160 L 670 160" fill="none" />
+                    <path id="path-phys-2" d="M 570 350 L 670 350" fill="none" />
+                    <path id="path-bio-2"  d="M 570 540 L 670 540" fill="none" />
+                    <path id="path-chem-3" d="M 870 160 L 970 160" fill="none" />
+                    <path id="path-phys-3" d="M 870 350 L 970 350" fill="none" />
+                    <path id="path-bio-3"  d="M 870 540 L 970 540" fill="none" />
+                </defs>
+
+                <g fill="none" stroke-width="3" stroke-linecap="round" filter="url(#graph-glow-light)">
+                    <path d="M 250 350 C 310 350, 300 160, 370 160" stroke="#FF007A" opacity="0.6"/>
+                    <path d="M 250 350 L 370 350" stroke="#00E5FF" opacity="0.6"/>
+                    <path d="M 250 350 C 310 350, 300 540, 370 540" stroke="#00FF66" opacity="0.6"/>
+                    <path d="M 570 160 L 670 160" stroke="#FF007A" opacity="0.6"/>
+                    <path d="M 570 350 L 670 350" stroke="#00E5FF" opacity="0.6"/>
+                    <path d="M 570 540 L 670 540" stroke="#00FF66" opacity="0.6"/>
+                    <path d="M 870 160 L 970 160" stroke="#FF007A" opacity="0.6"/>
+                    <path d="M 870 350 L 970 350" stroke="#00E5FF" opacity="0.6"/>
+                    <path d="M 870 540 L 970 540" stroke="#00FF66" opacity="0.6"/>
+                </g>
+
+                <g filter="url(#graph-glow)">
+                    <circle r="4" fill="#FF007A"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#path-chem" /></animateMotion></circle>
+                    <circle r="4" fill="#00E5FF"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#path-phys" /></animateMotion></circle>
+                    <circle r="4" fill="#00FF66"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#path-bio" /></animateMotion></circle>
+                    <circle r="4" fill="#FF007A"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#path-chem-2" /></animateMotion></circle>
+                    <circle r="4" fill="#00E5FF"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#path-phys-2" /></animateMotion></circle>
+                    <circle r="4" fill="#00FF66"><animateMotion dur="2.5s" repeatCount="indefinite"><mpath href="#path-bio-2" /></animateMotion></circle>
+                    <circle r="4" fill="#FF007A"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#path-chem-3" /></animateMotion></circle>
+                    <circle r="4" fill="#00E5FF"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#path-phys-3" /></animateMotion></circle>
+                    <circle r="4" fill="#00FF66"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#path-bio-3" /></animateMotion></circle>
+                </g>
+
+                <!-- ФАЗА 0 -->
+                <g transform="translate(10, 275)">
+                    <rect width="240" height="150" rx="15" fill="rgba(255, 204, 0, 0.08)" stroke="#FFCC00" stroke-width="2.5" filter="url(#graph-glow-light)"/>
+                    <text x="120" y="32" font-size="18" font-weight="900" fill="#FFCC00" text-anchor="middle">ЧОВЕКЪТ И ПРИРОДАТА</text>
+                    <text x="120" y="52" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">5 И 6 КЛАС</text>
+                    <rect x="60" y="65" width="120" height="20" rx="10" fill="#FFCC00" />
+                    <text x="120" y="79" font-size="11" font-weight="900" fill="#05080c" text-anchor="middle">TriKer-MN</text>
+                    <text x="120" y="105" font-size="12" font-weight="600" fill="#aaaaaa" text-anchor="middle">+ Мерни единици</text>
+                    <rect x="65" y="115" width="110" height="18" rx="9" fill="rgba(255, 204, 0, 0.8)" />
+                    <text x="120" y="128" font-size="10" font-weight="900" fill="#05080c" text-anchor="middle">TriKer-SI</text>
+                </g>
+
+                <!-- ФАЗА 1 -->
+                <g transform="translate(370, 110)">
+                    <rect width="200" height="100" rx="12" fill="rgba(255, 0, 122, 0.05)" stroke="#FF007A" stroke-width="2" filter="url(#graph-glow-light)"/>
+                    <text x="100" y="35" font-size="18" font-weight="900" fill="#FF007A" text-anchor="middle">ХИМИЯ</text>
+                    <text x="100" y="55" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">7 - 10 КЛАС</text>
+                    <rect x="50" y="70" width="100" height="18" rx="9" fill="#FF007A" opacity="0.9"/>
+                    <text x="100" y="83" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">TriKer-ChemO</text>
+                </g>
+                <g transform="translate(370, 300)">
+                    <rect width="200" height="100" rx="12" fill="rgba(0, 229, 255, 0.05)" stroke="#00E5FF" stroke-width="2" filter="url(#graph-glow-light)"/>
+                    <text x="100" y="35" font-size="18" font-weight="900" fill="#00E5FF" text-anchor="middle">ФИЗИКА</text>
+                    <text x="100" y="55" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">7 - 10 КЛАС</text>
+                    <rect x="50" y="70" width="100" height="18" rx="9" fill="#00E5FF" opacity="0.9"/>
+                    <text x="100" y="83" font-size="10" font-weight="800" fill="#05080c" text-anchor="middle">TriKer-EM</text>
+                </g>
+                <g transform="translate(370, 490)">
+                    <rect width="200" height="100" rx="12" fill="rgba(0, 255, 102, 0.05)" stroke="#00FF66" stroke-width="2" filter="url(#graph-glow-light)"/>
+                    <text x="100" y="35" font-size="18" font-weight="900" fill="#00FF66" text-anchor="middle">БИОЛОГИЯ</text>
+                    <text x="100" y="55" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">7 - 10 КЛАС</text>
+                    <rect x="50" y="70" width="100" height="18" rx="9" fill="#00FF66" opacity="0.9"/>
+                    <text x="100" y="83" font-size="10" font-weight="800" fill="#05080c" text-anchor="middle">TriKer-BioO</text>
+                </g>
+
+                <!-- ФАЗА 2 -->
+                <g transform="translate(670, 110)">
+                    <rect width="200" height="100" rx="12" fill="rgba(255, 0, 122, 0.1)" stroke="#FF007A" stroke-width="3" filter="url(#graph-glow-light)"/>
+                    <text x="100" y="35" font-size="16" font-weight="900" fill="#FF007A" text-anchor="middle">ПРОФИЛ ХИМИЯ</text>
+                    <text x="100" y="55" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">11 - 12 КЛАС</text>
+                    <rect x="40" y="70" width="120" height="18" rx="9" fill="#FF007A" />
+                    <text x="100" y="83" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle">TriKer-ChemP</text>
+                </g>
+                <g transform="translate(670, 300)">
+                    <rect width="200" height="100" rx="12" fill="rgba(0, 229, 255, 0.1)" stroke="#00E5FF" stroke-width="3" filter="url(#graph-glow-light)"/>
+                    <text x="100" y="35" font-size="16" font-weight="900" fill="#00E5FF" text-anchor="middle">ПРОФИЛ ФИЗИКА</text>
+                    <text x="100" y="55" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">11 - 12 КЛАС</text>
+                    <rect x="40" y="70" width="120" height="18" rx="9" fill="#00E5FF" />
+                    <text x="100" y="83" font-size="11" font-weight="900" fill="#05080c" text-anchor="middle">TriKer-QW</text>
+                </g>
+                <g transform="translate(670, 490)">
+                    <rect width="200" height="100" rx="12" fill="rgba(0, 255, 102, 0.1)" stroke="#00FF66" stroke-width="3" filter="url(#graph-glow-light)"/>
+                    <text x="100" y="35" font-size="16" font-weight="900" fill="#00FF66" text-anchor="middle">ПРОФИЛ БИОЛОГИЯ</text>
+                    <text x="100" y="55" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">11 - 12 КЛАС</text>
+                    <rect x="40" y="70" width="120" height="18" rx="9" fill="#00FF66" />
+                    <text x="100" y="83" font-size="11" font-weight="900" fill="#05080c" text-anchor="middle">TriKer-BioP</text>
+                </g>
+
+                <!-- ФАЗА 3 -->
+                <g transform="translate(970, 110)">
+                    <rect width="200" height="100" rx="12" fill="rgba(255, 0, 122, 0.15)" stroke="#FF007A" stroke-width="4" filter="url(#graph-glow)"/>
+                    <text x="100" y="35" font-size="16" font-weight="900" fill="#FF007A" text-anchor="middle">ВИСША ХИМИЯ</text>
+                    <text x="100" y="55" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">СТУДЕНТИ</text>
+                    <rect x="30" y="70" width="140" height="18" rx="9" fill="#FF007A" />
+                    <text x="100" y="83" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">Органика & Квантова</text>
+                </g>
+                <g transform="translate(970, 300)">
+                    <rect width="200" height="100" rx="12" fill="rgba(0, 229, 255, 0.15)" stroke="#00E5FF" stroke-width="4" filter="url(#graph-glow)"/>
+                    <text x="100" y="35" font-size="16" font-weight="900" fill="#00E5FF" text-anchor="middle">ВИСША ФИЗИКА</text>
+                    <text x="100" y="55" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">СТУДЕНТИ</text>
+                    <rect x="30" y="70" width="140" height="18" rx="9" fill="#00E5FF" />
+                    <text x="100" y="83" font-size="11" font-weight="900" fill="#05080c" text-anchor="middle">TriKer-SM</text>
+                </g>
+                <g transform="translate(970, 490)">
+                    <rect width="200" height="100" rx="12" fill="rgba(0, 255, 102, 0.15)" stroke="#00FF66" stroke-width="4" filter="url(#graph-glow)"/>
+                    <text x="100" y="35" font-size="16" font-weight="900" fill="#00FF66" text-anchor="middle">ВИСША БИОЛОГИЯ</text>
+                    <text x="100" y="55" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">СТУДЕНТИ</text>
+                    <rect x="30" y="70" width="140" height="18" rx="9" fill="#00FF66" />
+                    <text x="100" y="83" font-size="10" font-weight="800" fill="#05080c" text-anchor="middle">Молекулярна & Генетика</text>
+                </g>
+            </svg>
+        </div>
+    </section>
+
+    <footer>
+        <h2>TriKer™</h2>
+        <p style="color: var(--text-muted); margin-top: 1rem;">Иновативна методика на обучение по природни науки.</p>
+        <p style="color: var(--text-muted); margin-top: 1rem;">© 2024 Кирил Докузов. Всички права запазени.</p>
+    </footer>
+
+    <!-- Скрипт за 3D ДНК Логото -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const rx = 240, ry = 70, twists = 15, tubeRadius = 14, steps = 600, pairsPerTwist = 5;
+            const interval = Math.floor(steps / (twists * pairsPerTwist));
+            let strand1 = '', strand2 = '', basePairs = '';
+            const baseColors = [['#FF3366', '#00E5FF'], ['#FFCC00', '#00FF66']];
+
+            for (let i = 0; i <= steps; i++) {
+                let t = (i / steps) * Math.PI * 2;
+                let phase = twists * t;
+                let bx = rx * Math.cos(t), by = ry * Math.sin(t);
+                let tx = -rx * Math.sin(t), ty = ry * Math.cos(t);
+                let len = Math.sqrt(tx*tx + ty*ty);
+                let nx = -ty / len, ny = tx / len;
+                let offset1 = Math.cos(phase) * tubeRadius, offset2 = Math.cos(phase + Math.PI) * tubeRadius;
+                let x1 = bx + nx * offset1, y1 = by + ny * offset1;
+                let x2 = bx + nx * offset2, y2 = by + ny * offset2;
+
+                if (i === 0) { strand1 += `M ${x1.toFixed(2)},${y1.toFixed(2)} `; strand2 += `M ${x2.toFixed(2)},${y2.toFixed(2)} `; } 
+                else { strand1 += `L ${x1.toFixed(2)},${y1.toFixed(2)} `; strand2 += `L ${x2.toFixed(2)},${y2.toFixed(2)} `; }
+
+                if (i % interval === 0 && i !== steps) {
+                    let midX = (x1 + x2) / 2, midY = (y1 + y2) / 2;
+                    let colors = baseColors[(Math.floor(i / interval)) % 2];
+                    basePairs += `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${midX.toFixed(2)}" y2="${midY.toFixed(2)}" stroke="${colors[0]}" stroke-width="1.8" opacity="0.95"/>`;
+                    basePairs += `<line x1="${midX.toFixed(2)}" y1="${midY.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="${colors[1]}" stroke-width="1.8" opacity="0.95"/>`;
+                }
+            }
+
+            let html = basePairs;
+            html += `<path d="${strand2}" fill="none" stroke="#00FF66" stroke-width="2" opacity="0.3" stroke-linejoin="round"/>`;
+            html += `<path d="${strand1}" fill="none" stroke="#00FF66" stroke-width="2.5" filter="url(#logo-glow)" stroke-linejoin="round"/>`;
+            html += `<circle cx="-130" cy="-60" r="3" fill="#ffffff" filter="url(#logo-glow)"/><circle cx="240" cy="0" r="4.5" fill="#00FF66" filter="url(#logo-glow)"/>`;
+
+            document.getElementById('dna-orbit').innerHTML = html;
+        });
+    </script>
+</body>
+</html>
